@@ -80,16 +80,21 @@
 
     <!-- Boutons d'actions -->
     <div class="mt-4 text-center">
+        <a href="{{ route('patient.mrc.edit', ['mrcAnalysis' => $mrcAnalysis->id]) }}"
+            class="btn btn-warning btn-lg me-3">Update Analysis Data
+         </a>
         <!-- Bouton pour effectuer une analyse -->
         <a href="{{ route('patient.mrc.create', ['patient' => $patient->id]) }}"
-           class="btn btn-success btn-lg me-2">New MRC Analysis</a>
+           class="btn btn-success btn-lg me-3">New MRC Analysis
+        </a>
 
         <!-- Bouton pour la prediction du statde de la maladie -->
         @if (!$mrcAnalysis->stage)
             <a href="{{ route('patient.mrc.prediction', ['mrcAnalysis' => $mrcAnalysis->id]) }}"
-                class="btn btn-primary btn-lg">Stade prediction
+                class="btn btn-primary btn-lg">Stage prediction
             </a>
         @endif
 
     </div>
 @endsection
+

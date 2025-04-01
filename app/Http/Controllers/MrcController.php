@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\MrcAnalysis;
 use Illuminate\Http\Request;
+use App\Services\MrcPredictionService;
 
 class MrcController extends Controller
 {
@@ -32,6 +33,7 @@ class MrcController extends Controller
         $validatedData['stage'] = Null ;
 
         MrcAnalysis::create($validatedData);
+        $this->prediction($mrcAnalysis);
 
         return redirect()->route('patient.show', ['patient' => $patient->id])->with('success', 'Action completed successfully !');
     }
@@ -55,6 +57,8 @@ class MrcController extends Controller
         ]);
 
         $mrcAnalysis->update($validatedData);
+        $this->prediction($mrcAnalysis);
+
 
         return redirect()->route('patient.mrc.show', ['mrcAnalysis' => $mrcAnalysis->id])->with('success', 'Action completed successfully !');
     }
@@ -70,6 +74,24 @@ class MrcController extends Controller
 
     //  Lunch a prediction
     public function prediction(MrcAnalysis $mrcAnalysis){
-        dd("Prediction function !");
+
+        // Appel du service
+        $prediction = MrcPredictionService::predict(
+            $mrcAnalysis->creatinine_level,
+            $mrcAnalysis->gfr,
+            $mrcAnalysis->albumin_level
+        );
+
+        $mrcAnalysis->stage = $prediction['predicted_stage'];
+        $mrcAnalysis->save();
+
+        return redirect()->route('patient.mrc.show', [
+            'mrcAnalysis' => $mrcAnalysis,
+            'patient' => $mrcAnalysis->patient
+        ]);
+
+        // return response()->json($prediction);
     }
 }
+
+
