@@ -16,4 +16,15 @@ class MrcAnalysis extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
+
+    //  Properties
+    protected $fillable = [
+        'patient_id',
+        'user_id',
+        'creatinine_level',
+        'gfr',
+        'albumin_level',
+    ];
 }

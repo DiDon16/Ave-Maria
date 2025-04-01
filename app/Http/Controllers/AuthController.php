@@ -49,7 +49,7 @@ class AuthController extends Controller
         if(Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = $request->user()->name;
-            return redirect()->intended(route('laravel.index'))->with('success', "Welcome $user !");
+            return redirect()->intended(route('index'))->with('success', "Welcome $user !");
         };
 
         return to_route('login')->with([

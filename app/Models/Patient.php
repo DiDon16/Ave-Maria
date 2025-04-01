@@ -13,8 +13,13 @@ class Patient extends Model
 
     public function mrcAnalyses()
     {
-        return $this->hasMany(Analysis::class);
+        return $this->hasMany(MrcAnalysis::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 
     //  Properties
     protected $fillable = [
@@ -22,5 +27,9 @@ class Patient extends Model
         'lastName',
         'date_of_birth',
         'gender',
+        'phone_number',
+        'email',
+        'address',
+        'user_id',
     ];
 }
