@@ -63,8 +63,8 @@
                     </form>
                 @endauth
                 @guest
-                    <a class="nav-link" href="{{route('register')}}"><button class="nav-link btn btn-primary" style="color:white;">Register</button></a>
-                    <a class="nav-link" href="{{route('login')}}"><button class="nav-link btn btn-primary" style="color:white;">Login</button></a>
+                    <a class="nav-link" href="{{route('register')}}"><button class="btn btn-primary" style="color:white;">Register</button></a>
+                    <a class="nav-link" href="{{route('login')}}"><button class="btn btn-primary" style="color:white;">Login</button></a>
                 @endguest
             </div>
         </nav>

@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,6 +12,27 @@ Route::get('/', function () {
 //  Register routes
 Route::get('/register', [\App\Http\Controllers\AuthController::class, 'register'])->name('register');
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'registerAction']);
+
+//  Mail verification
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return response()->json(['message' => 'Email vérifié avec succès']);
+    })->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return "<p>Email de vérification renvoyé</p>";
+    })->middleware('throttle:6,1')->name('verification.send');
+
+    // La première route est appelée lorsque l’utilisateur clique sur le lien de vérification dans son email.
+    // La deuxième permet de renvoyer un email de vérification sur demande.
+});
+
+Route::get('/verify-email', function () {
+    return view('auth.verify-email');
+})->name('verification.notice');
+
 //  Login routes
 Route::get('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'loginAction']);
@@ -20,7 +43,7 @@ Route::delete('/logout', [\App\Http\Controllers\AuthController::class, 'logout']
 Route::get('/index', [\App\Http\Controllers\AveMariaController::class, 'index'])->name('index')->middleware('auth');
 
 //  Route about patients
-Route::prefix('/patient')->name('patient.')->controller(PatientController::class)->middleware('auth')->group(function(){
+Route::prefix('/patient')->name('patient.')->controller(PatientController::class)->middleware('auth', 'verified')->group(function(){
 
     //  Create new Patient
     Route::get('/new', 'create')->name('create');
