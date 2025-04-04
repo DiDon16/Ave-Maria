@@ -6,15 +6,18 @@ use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PatientRequest;
+use Illuminate\Support\Facades\Crypt;
 
 class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return view('patient.index', [
+            'patients' => Patient::paginate(4),
+        ]);
     }
 
     //  New patient creation
@@ -40,7 +43,7 @@ class PatientController extends Controller
 
         $patient = Patient::create($validatedData);
 
-        return redirect()->route('index')->with('success', 'Patient created successfully !');
+        return redirect()->route('patient.index')->with('success', 'Patient created successfully !');
     }
 
 

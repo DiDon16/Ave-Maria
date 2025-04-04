@@ -69,9 +69,9 @@
             </div>
         </nav>
 
-        <p style="display:block; text-align: center;">
+        {{-- <p style="display:block; text-align: center;">
             <img style="width:90%; height:400px; object-fit:cover;" src="/storage/aveMaria/heL5uvtEkoWdlAHkIph7SIG1PZ1TetgnAYtm8pAD.jpg">
-        </p>
+        </p> --}}
 
         <div class="container">
             @if(session('success'))
@@ -79,6 +79,13 @@
                     {{ session('success') }}
                 </div>
             @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             @yield('content')
         </div>
 

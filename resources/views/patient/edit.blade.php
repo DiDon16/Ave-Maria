@@ -1,10 +1,11 @@
-@extends('base')
+@extends('layouts.template')
+@push('page-css')
+    <link rel="stylesheet" type="text/css" href="{{asset('src/plugins/switchery/switchery.min.css')}}"/>
+@endpush
 
 @php
     $patientName = $patient->firstName.' '.$patient->lastName;
 @endphp
-
-@section('title', $patientName)
 
 @section('content')
     <h1>Patient Informations Update</h1>
