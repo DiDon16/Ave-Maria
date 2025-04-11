@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Role;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -15,9 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('verification_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('role_id')->constrained('roles'); // Rôle de l'utilisateur
+            $table->foreignIdFor(Role::class)->constrained()->cascadeOnDelete(); // Rôle de l'utilisateur
             $table->rememberToken();
             $table->timestamps();
         });

@@ -1,12 +1,13 @@
-@extends('base')
-
+@extends('layouts.template')
+@push('page-css')
+    <link rel="stylesheet" type="text/css" href="{{asset('src/plugins/switchery/switchery.min.css')}}"/>
+@endpush
 @php
     $patientName = $patient->firstName.' '.$patient->lastName;
 @endphp
-@section('title', $patientName)
 
 @section('content')
-
+    <h1>Patient {{$patient->firstName}}</h1>
     <div class="container mt-5">
         <div class="card">
             <div class="card-header bg-primary text-white">
@@ -59,7 +60,7 @@
     <div class="mt-4 text-center">
         <!-- Bouton pour effectuer une analyse -->
         <a href="{{ route('patient.mrc.create', ['patient' => $patient->id]) }}"
-           class="btn btn-success btn-lg me-2">MRC Analysis</a>
+           class="btn btn-success btn-lg me-2">New MRC Analysis</a>
 
         <!-- Bouton pour mettre à jour le profil -->
         <a href="{{ route('patient.edit', ['patient' => $patient->id]) }}"
