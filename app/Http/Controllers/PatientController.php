@@ -70,7 +70,7 @@ class PatientController extends Controller
         $patient = Patient::create([
             'firstName' => Crypt::encrypt($validatedData['firstName']),
             'lastName' => Crypt::encrypt($validatedData['lastName']),
-            'date_of_birth' => Crypt::encrypt($validatedData['date_of_birth']),
+            'date_of_birth' => $validatedData['date_of_birth'],
             'gender' => $validatedData['gender'],
             'phone_number' => Crypt::encrypt($validatedData['phone_number']),
             'email' => Crypt::encrypt($validatedData['email']),
