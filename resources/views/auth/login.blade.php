@@ -29,11 +29,16 @@
                         <div class="login-box bg-white box-shadow border-radius-10">
 
                             <div class="login-title mt-4">
-                                <h2 class="text-center text-dark">Login</h2>
+                                <h2 class="text-center text-dark">Se connecter</h2>
                             </div>
                             @if(session('error'))
                                 <div class="alert alert-danger">
                                     {{ session('error') }}
+                                </div>
+                            @endif
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
                                 </div>
                             @endif
                             <form method="post">
@@ -72,18 +77,18 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="input-group mb-0">
-                                            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+                                            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Se connecter">
                                         </div>
 
                                     </div>
                                 </div>
                             </form>
                             <br>
-                            <div class="d-flex justify-content-center align-items-center" style="height:;">Or</div>
+                            <div class="d-flex justify-content-center align-items-center" style="height:;">Ou</div>
 
                             <div class="d-flex justify-content-center align-items-center" style="height:;">
                                 <a href="{{ route('register') }}" class="btn btn-primary btn-lg mt-3">
-                                    Sign Up
+                                    S'inscrire
                                 </a>
                             </div>
                         </div>

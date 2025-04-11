@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
 
         $request->user()->sendEmailVerificationNotification();
         return "<p>Email de vérification renvoyé</p>";
+        return "<p>Email de vérification renvoyé</p>";
     })->middleware('throttle:6,1')->name('verification.send');
 });
 
@@ -28,7 +29,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return response()->json(['message' => 'Email vérifié avec succès']);
-})->name('verification.verify');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 //  Envoie de notification de verification de mail
 Route::get('/verify-email', function () {

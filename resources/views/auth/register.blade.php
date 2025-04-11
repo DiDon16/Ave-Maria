@@ -77,11 +77,16 @@
                         <div class="login-box bg-white box-shadow border-radius-10">
 
                             <div class="login-title mt-4">
-                                <h2 class="text-center text-dark">Register</h2>
+                                <h2 class="text-center text-dark">S'inscrire</h2>
                             </div>
                             @if(session('error'))
                                 <div class="alert alert-danger">
                                     {{ session('error') }}
+                                </div>
+                            @endif
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
                                 </div>
                             @endif
                             <form method="post">
@@ -153,22 +158,36 @@
                                     @enderror
                                 </div>
 
+                                {{-- Politique de mot de passe --}}
+                                <div class="mt-3">
+                                    <h4>Exigences du Mot de Passe</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Le mot de passe doit contenir au moins <strong>12 caractères</strong>.</li>
+                                        <li class="list-group-item">Il doit inclure au moins <strong>une lettre minuscule</strong>.</li>
+                                        <li class="list-group-item">Il doit inclure au moins <strong>une lettre majuscule</strong>.</li>
+                                        <li class="list-group-item">Il doit inclure au moins <strong>un chiffre</strong>.</li>
+                                        <li class="list-group-item">Il doit inclure au moins <strong>un caractère spécial</strong>.</li>
+                                    </ul>
+                                </div>
+
+
+
                                 <div class="row pb-30"></div>
 
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="input-group mb-0">
-                                            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign Up">
+                                            <input class="btn btn-primary btn-lg btn-block" type="submit" value="S'inscrire">
                                         </div>
                                     </div>
                                 </div>
                             </form>
                             <br>
-                            <div class="d-flex justify-content-center align-items-center" style="height:;">Or</div>
+                            <div class="d-flex justify-content-center align-items-center" style="height:;">Ou</div>
 
                             <div class="d-flex justify-content-center align-items-center" style="height:;">
                                 <a href="{{ route('login') }}" class="btn btn-primary btn-lg mt-3">
-                                    Sign In
+                                    Se connecter
                                 </a>
                             </div>
                         </div>

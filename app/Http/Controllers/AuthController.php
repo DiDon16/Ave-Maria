@@ -28,15 +28,25 @@ class AuthController extends Controller
         $validatedData = $request->validate([
             "name" => "required|string|max:250",
             "email" => "required|email|max:250|unique:users,email",
-            'password' => 'required|string|min:4|confirmed',
+            'password' => [
+                'required',
+                'string',
+                'min:12',
+                'confirmed',
+                'regex:/[a-z]/', // Minuscule
+                'regex:/[A-Z]/', // Majuscule
+                'regex:/[0-9]/', // Chiffre
+                'regex:/[^A-Za-z0-9]/', // Caractère spécial
+            ],
             'role_id' => ['required', 'exists:roles,id'],
         ]);
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         $user = User::create($validatedData);
-
+        Auth::login($user);
         event(new Registered($user));
-        Mail::to($user->email)->send(new VerifyEmail($user));
+        // Mail::to($user->email)->send(new VerifyEmail($user));
+        $user->sendEmailVerificationNotification();
 
         return redirect()->route('login')->with('success', 'Account created successfully !');
     }
