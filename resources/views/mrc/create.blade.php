@@ -4,7 +4,7 @@
 @endpush
 
 @section('content')
-    <h1>New MRC Analysis for {{$patient->firstName}}</h1>
+    <h1>New MRC Analysis for {{$patient}}</h1>
     <br>
     @include('mrc.form')
 @endsection

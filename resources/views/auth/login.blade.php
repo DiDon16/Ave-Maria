@@ -78,6 +78,14 @@
                                     </div>
                                 </div>
                             </form>
+                            <br>
+                            <div class="d-flex justify-content-center align-items-center" style="height:;">Or</div>
+
+                            <div class="d-flex justify-content-center align-items-center" style="height:;">
+                                <a href="{{ route('register') }}" class="btn btn-primary btn-lg mt-3">
+                                    Sign Up
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

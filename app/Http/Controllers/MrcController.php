@@ -5,15 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Models\MrcAnalysis;
 use Illuminate\Http\Request;
+use App\Services\DecryptService;
+use Illuminate\Support\Facades\Crypt;
 use App\Services\MrcPredictionService;
 
 class MrcController extends Controller
 {
+
+    public function index(Request $request){
+        $mrcAnalyses = MrcAnalysis::all();
+        return view('mrc.index', compact('mrcAnalyses'));
+    }
+
+
     public function create(Request $request, Patient $patient){
         $mrcAnalysis = New MrcAnalysis();
 
         return view('mrc.create', [
-            'patient' => $patient,
+            'patient' => Crypt::decrypt($patient->firstName),
             'mrcAnalysis' => $mrcAnalysis,
         ]);
     }
@@ -32,7 +41,7 @@ class MrcController extends Controller
         $validatedData['user_id'] = $user->id;
         $validatedData['stage'] = Null ;
 
-        MrcAnalysis::create($validatedData);
+        $mrcAnalysis = MrcAnalysis::create($validatedData);
         $this->prediction($mrcAnalysis);
 
         return redirect()->route('patient.show', ['patient' => $patient->id])->with('success', 'Action completed successfully !');
@@ -64,8 +73,18 @@ class MrcController extends Controller
     }
 
     //  Show analysis
-    public function show(MrcAnalysis $mrcAnalysis){
+    public function show(MrcAnalysis $mrcAnalysis, DecryptService $decryptService){
         $patient = $mrcAnalysis->patient;
+
+        $patient->firstName = $decryptService->safeDecrypt($patient->firstName);
+        $patient->lastName = $decryptService->safeDecrypt($patient->lastName);
+        $patient->date_of_birth = $decryptService->safeDecrypt($patient->date_of_birth);
+        $patient->gender = $decryptService->safeDecrypt($patient->gender);
+        $patient->phone_number = $decryptService->safeDecrypt($patient->phone_number);
+        $patient->email = $decryptService->safeDecrypt($patient->email);
+        $patient->address = $decryptService->safeDecrypt($patient->address);
+        $patient->user_id = $patient->user_id;
+
         return view('mrc.show', [
             'mrcAnalysis' => $mrcAnalysis,
             'patient' => $patient,

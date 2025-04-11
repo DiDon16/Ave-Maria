@@ -23,10 +23,15 @@
                     <span class="user-name">{{auth()->user()->name}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                    <a class="dropdown-item" href="#"><i class="dw dw-user1"></i> Profile</a>
+                    {{-- <a class="dropdown-item" href="#"><i class="dw dw-user1"></i> Profile</a>
                     <a class="dropdown-item" href="#"><i class="dw dw-settings2"></i> Setting</a>
-                    <a class="dropdown-item" href="#"><i class="dw dw-help"></i> Help</a>
-                    <a class="dropdown-item" href="{{route('logout')}}"><i class="dw dw-logout"></i> Log Out</a>
+                    <a class="dropdown-item" href="#"><i class="dw dw-help"></i> Help</a> --}}
+                    <form class="nav-item" action="{{ route('logout') }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button class="nav-link" style="color:red;"><i class="dw dw-logout"></i>Log Out</button>
+                    </form>
+                    {{-- <a class="dropdown-item" href="{{route('logout')}}"><i class="dw dw-logout"></i> Log Out</a> --}}
                 </div>
             </div>
         </div>

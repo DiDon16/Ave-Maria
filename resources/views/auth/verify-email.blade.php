@@ -21,7 +21,7 @@
         <!-- Formulaire pour renvoyer l'email de vérification -->
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
-            <button id="resendButton" type="submit" class="btn btn-primary" disabled>Resend verification email</button>
+            <button id="resendButton" type="submit" class="btn btn-primary">Resend verification email</button>
             <p id="countdownText" class="mt-2 text-danger"></p>
         </form>
 
@@ -32,7 +32,7 @@
         </form>
     </div>
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             const resendButton = document.getElementById('resendButton');
             const countdownText = document.getElementById('countdownText');
@@ -76,6 +76,6 @@
                 countdownText.innerText = '';
             }
         });
-    </script>
+    </script> --}}
 </body>
 </html>

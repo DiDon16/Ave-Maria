@@ -61,6 +61,9 @@ class AuthController extends Controller
                 return to_route('verification.notice');
             }
 
+            // $request->session()->regenerate();
+            // $user = $request->user()->name;
+            // return redirect()->intended(route('dashboard'))->with('success', "Success !");
 
             // Générer un code 2FA à 5 chiffres
             $code = rand(10000, 99999);

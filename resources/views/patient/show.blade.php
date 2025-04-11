@@ -60,7 +60,7 @@
     <div class="mt-4 text-center">
         <!-- Bouton pour effectuer une analyse -->
         <a href="{{ route('patient.mrc.create', ['patient' => $patient->id]) }}"
-           class="btn btn-success btn-lg me-2">MRC Analysis</a>
+           class="btn btn-success btn-lg me-2">New MRC Analysis</a>
 
         <!-- Bouton pour mettre à jour le profil -->
         <a href="{{ route('patient.edit', ['patient' => $patient->id]) }}"

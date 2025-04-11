@@ -16,18 +16,21 @@ Route::get('/register', [\App\Http\Controllers\AuthController::class, 'register'
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'registerAction']);
 //  Mail verification
 Route::middleware('auth')->group(function () {
-    //  route est appelée lorsque l’utilisateur clique sur le lien de vérification dans son email
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return response()->json(['message' => 'Email vérifié avec succès']);
-    })->name('verification.verify');
     //  permet de renvoyer un email de vérification sur demande.
     Route::post('/email/verification-notification', function (Request $request) {
+
         $request->user()->sendEmailVerificationNotification();
         return "<p>Email de vérification renvoyé</p>";
     })->middleware('throttle:6,1')->name('verification.send');
 });
 
+//  route est appelée lorsque l’utilisateur clique sur le lien de vérification dans son email
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return response()->json(['message' => 'Email vérifié avec succès']);
+})->name('verification.verify');
+
+//  Envoie de notification de verification de mail
 Route::get('/verify-email', function () {
     return view('auth.verify-email');
 })->name('verification.notice');
@@ -67,7 +70,6 @@ Route::prefix('/patient')->name('patient.')->controller(PatientController::class
     //  Show Patients Infos
     Route::get('/{patient}/show', 'show')->name('show');
 
-
     //  Create a MRC analysis
     Route::get('/{patient}/mrc/new', [\App\Http\Controllers\MrcController::class, 'create'])->name('mrc.create');
     Route::post('/{patient}/mrc/new', [\App\Http\Controllers\MrcController::class, 'store']);
@@ -80,6 +82,7 @@ Route::prefix('/patient')->name('patient.')->controller(PatientController::class
     Route::get('/mrc/{mrcAnalysis}/prediction', [\App\Http\Controllers\MrcController::class, 'prediction'])->name('mrc.prediction');
 });
 
+Route::get('/mrcAnalyses', [\App\Http\Controllers\MrcController::class, 'index'])->name('mrc.index')->middleware('auth', 'verified', '2fa');
 
 //  dashboard
 Route::get('/dashboard', function () {
@@ -92,3 +95,4 @@ Route::get('/index', function (){
 Route::get('/', function(){
     return to_route('dashboard');
 });
+
